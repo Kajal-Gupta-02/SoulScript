@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-cloud text-ink font-body antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  @apply font-display text-teal;
+}
+
+/* Visible keyboard focus everywhere, since we can't rely on hover alone */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid theme("colors.coral");
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: theme("colors.blush");
+  color: theme("colors.teal");
+}
+
+/* Respect people who've asked their OS for less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.prose-content h1,
+.prose-content h2,
+.prose-content h3 {
+  @apply mt-8 mb-3 font-semibold;
+}
+.prose-content p {
+  @apply mb-4 leading-relaxed;
+}
+.prose-content a {
+  @apply text-coral underline decoration-blush decoration-2 underline-offset-2;
+}
+.prose-content ul,
+.prose-content ol {
+  @apply mb-4 ml-6 list-disc;
+}
+.prose-content blockquote {
+  @apply border-l-4 border-blush pl-4 italic text-ink/80 my-4;
+}
+.prose-content code {
+  @apply bg-dawn/40 text-teal px-1.5 py-0.5 rounded font-mono text-sm;
+}
+.prose-content pre {
+  @apply bg-teal text-cloud p-4 rounded-xl overflow-x-auto my-4;
+}
