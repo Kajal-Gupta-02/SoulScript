@@ -14,7 +14,7 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
-// --- Security basics -------------------------------------------------
+
 app.use(helmet());
 app.disable("x-powered-by");
 
@@ -26,7 +26,7 @@ const allowedOrigins = (process.env.CLIENT_ORIGIN || "")
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow tools like curl/Postman (no origin header) and whitelisted origins
+      
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -37,13 +37,12 @@ app.use(
 );
 
 app.use(express.json({ limit: "1mb" }));
-app.use(mongoSanitize()); // strips out any $ / . operators someone tries to inject via body/query
+app.use(mongoSanitize()); 
 
 // A gentle global limiter on top of the stricter per-route ones
 const globalLimiter = rateLimit({ windowMs: 60 * 1000, max: 100 });
 app.use(globalLimiter);
 
-// --- Routes ------------------------------------------------------------
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
