@@ -23,8 +23,7 @@ router.post("/login", loginLimiter, async (req, res) => {
   }
 
   const validUsername = username === process.env.ADMIN_USERNAME;
-  // Always run bcrypt.compare even on a bad username, so the response time
-  // doesn't leak whether the username was right (basic timing-attack guard).
+  
   const hashToCheck = validUsername
     ? process.env.ADMIN_PASSWORD_HASH
     : "$2a$12$invalidinvalidinvalidinvalidinvalidinvalidinvalidinva";
