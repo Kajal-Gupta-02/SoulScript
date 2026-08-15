@@ -12,7 +12,7 @@ import About from "./pages/About";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import PostEditor from "./pages/PostEditor";
-import commentModeration from "./pages/commentModeration";
+import CommentModeration from "./pages/CommentModeration";
 
 export default function App() {
   return (
