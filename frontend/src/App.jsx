@@ -12,6 +12,7 @@ import About from "./pages/About";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import PostEditor from "./pages/PostEditor";
+import commentModeration from "./pages/commentModeration";
 
 export default function App() {
   return (
@@ -47,6 +48,14 @@ export default function App() {
             element={
               <RequireAdminAuth>
                 <PostEditor />
+              </RequireAdminAuth>
+            }
+          />
+          <Route
+            path="/admin/comments"
+            element={
+              <RequireAdminAuth>
+                <CommentModeration />
               </RequireAdminAuth>
             }
           />

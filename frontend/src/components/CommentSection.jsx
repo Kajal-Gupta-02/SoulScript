@@ -96,6 +96,7 @@ export default function CommentSection({ postId }) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const [loading, setLoading] = useState(true);
 
   async function loadComments() {
@@ -120,8 +121,9 @@ export default function CommentSection({ postId }) {
     if (!commentName.trim() || !commentMessage.trim()) return;
 
     setError("");
+    setNotice("");
     try {
-      await api.post(`/comments/${postId}`, {
+      const { data } = await api.post(`/comments/${postId}`, {
         name: commentName,
         message: commentMessage,
         parentComment,
@@ -130,7 +132,7 @@ export default function CommentSection({ postId }) {
         setName("");
         setMessage("");
       }
-      loadComments();
+      setNotice(data.message || "Thanks! Your comment will show up once it's reviewed.");
     } catch (err) {
       setError(err.response?.data?.error || "Couldn't post your comment.");
     }
@@ -165,6 +167,7 @@ export default function CommentSection({ postId }) {
           required
         />
         {error && <p className="text-sm text-red-500">{error}</p>}
+        {notice && <p className="text-sm text-teal">{notice}</p>}
         <button
           type="submit"
           className="bg-coral text-white px-5 py-2 rounded-full font-medium hover:brightness-105 transition"

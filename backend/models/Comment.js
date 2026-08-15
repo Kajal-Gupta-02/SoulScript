@@ -27,6 +27,21 @@ const commentSchema = new mongoose.Schema(
       ref: "Comment",
       default: null,
     },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+      index: true,
+    },
+    ip: {
+      type: String,
+      default: null,
+      select: false,
+    },
+    flagged: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

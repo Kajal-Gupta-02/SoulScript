@@ -8,15 +8,18 @@ export default function AdminDashboard() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [subscriberCount, setSubscriberCount] = useState(null);
+  const [pendingComments, setPendingComments] = useState(null);
 
   async function load() {
   try {
-    const [postsRes, subsRes] = await Promise.all([
+    const [postsRes, subsRes, commentsRes] = await Promise.all([
       api.get("/posts/admin/all"),
       api.get("/subscribers/count"),
+      api.get("/comments/admin/queue?status=pending"),
     ]);
     setPosts(postsRes.data);
     setSubscriberCount(subsRes.data.count);
+    setPendingComments(commentsRes.data.length);
   } catch (err) {
     if (err.response?.status === 401) navigate("/admin/login");
     else setError("Couldn't load posts.");
@@ -49,6 +52,17 @@ export default function AdminDashboard() {
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl">Dashboard</h1>
         <div className="flex gap-3">
+          <Link
+            to="/admin/comments"
+            className="relative px-4 py-2 rounded-full text-sm font-medium border border-dawn hover:border-coral"
+          >
+            Comments
+            {pendingComments > 0 && (
+              <span className="absolute -top-2 -right-2 bg-coral text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">
+                {pendingComments}
+              </span>
+            )}
+          </Link>
           <Link
             to="/admin/new"
             className="bg-coral text-white px-4 py-2 rounded-full text-sm font-medium hover:brightness-105"
